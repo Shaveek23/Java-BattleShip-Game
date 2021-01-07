@@ -56,7 +56,7 @@ public class DisplayBoard extends Parent {
         if (model == null)
             return;
 
-        this.model = model;
+
         for (int y = 0; y < Mode.getHeight(); y++) {
             for (int x = 0; x < Mode.getWidth(); x++) {
                 Cell c = getCell(x, y);
@@ -75,6 +75,7 @@ public class DisplayBoard extends Parent {
                 }
             }
         }
+        this.model = model;
         return;
     }
 

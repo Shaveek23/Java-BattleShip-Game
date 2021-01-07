@@ -59,9 +59,18 @@ public class Mode {
         return currentIndex - 1;
     }
 
-    public static int getShipsNumber() {
-        return shipsSizes.length;
-    }
+   public static String getShips() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Ships: ");
+        for (var param : shipsParameters) {
+            sb.append(" ");
+            sb.append(param.getCount());
+            sb.append(" x ");
+            sb.append(param.getSize());
+            sb.append("-size ships |");
+        }
+        return sb.toString();
+   }
 
 
 
