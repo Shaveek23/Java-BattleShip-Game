@@ -2,10 +2,9 @@ package Player;
 
 import Game.Board;
 import Game.Ships.Ship;
-import sample.Fields;
+import sample.Models.Fields;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public abstract class Player {
 

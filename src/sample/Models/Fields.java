@@ -1,6 +1,7 @@
-package sample;
+package sample.Models;
 
 import Game.Mode;
+import sample.Models.Field;
 
 public class Fields {
     public Field[][] fields;

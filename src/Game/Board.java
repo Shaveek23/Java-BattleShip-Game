@@ -5,8 +5,8 @@ import Game.Field.IField;
 import Game.Field.ShipPart;
 import Game.Ships.Ship;
 import javafx.util.Pair;
-import sample.Field;
-import sample.Fields;
+import sample.Models.Field;
+import sample.Models.Fields;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -16,14 +16,13 @@ public class Board {
     private int width;
     private int height;
 
-    public IField[][] fields; //change to private
+    private IField[][] fields;
     private HashMap<Pair<Integer, Integer>, IField> notHitYet = new HashMap<Pair<Integer, Integer>, IField>();
 
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
         fields = new IField[height][width];
-        int counter = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 fields[i][j] = new EmptyField(j, i);
@@ -211,7 +210,45 @@ public class Board {
         Random random = new Random();
         int hitIndex = random.nextInt(notHitYet.size());
         IField target = (IField)notHitYet.values().toArray()[hitIndex];
+
+        if (checkIfDeadField(target)) {
+            notHitYet.remove(new Pair<Integer, Integer>(target.getX(), target.getY()));
+            return randomizeTarget();
+        }
+
+
         return new Point(target.getX(), target.getY());
+    }
+
+    private boolean checkIfDeadField(IField target) {
+        int x = target.getX();
+        int y = target.getY();
+        boolean f1 = true;
+        boolean f2 = true;
+        boolean f3 = true;
+        boolean f4 = true;
+
+        if (isIndexOk(y - 1, x))
+            if (!fields[y - 1][x].isHit())
+                f1 = false;
+
+
+        if (isIndexOk(y + 1, x))
+            if (!fields[y + 1][x].isHit())
+                f2 = false;
+
+        if (isIndexOk(y, x + 1))
+            if (!fields[y][x + 1].isHit())
+                f3 = false;
+
+        if (isIndexOk(y, x - 1))
+            if (!fields[y][x - 1].isHit())
+                f4 = false;
+
+        if (f1 && f2 && f3 && f4)
+            return true;
+
+        return false;
     }
 
     public boolean shoot(Point target) {
@@ -238,10 +275,6 @@ public class Board {
         return !fields[point.y][point.x].isHit();
     }
 
-    public boolean isHitYet(Point point) {
-        return notHitYet.containsKey(new Pair<Integer, Integer>(point.x, point.y));
-    }
-
     public Fields getFieldsModel()
     {
         Fields fieldsModel = new Fields();
@@ -260,10 +293,6 @@ public class Board {
                 }
             }
         }
-
         return fieldsModel;
-    }
-
-    public void deletePreview() {
     }
 }

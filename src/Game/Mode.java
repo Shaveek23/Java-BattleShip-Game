@@ -1,11 +1,8 @@
 package Game;
 
-import Game.Ships.Ship;
 import Game.Ships.ShipsParameters;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.IntStream;
 
 public class Mode {
     private static int width;
@@ -71,10 +68,5 @@ public class Mode {
         }
         return sb.toString();
    }
-
-
-
-
-
 
 }
