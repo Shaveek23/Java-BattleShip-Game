@@ -4,8 +4,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import Application.Models.Field;
 
+import java.awt.*;
+
 public class Cell extends Rectangle {
-    public int x, y;
+    private int x;
+    private int y;
     private Field state;
 
     public Cell(int x, int y) {
@@ -23,4 +26,9 @@ public class Cell extends Rectangle {
     public void setState(Field state) {
         this.state = state;
     }
+
+    public Point get() {
+        return new Point(x,y);
+    }
+
 }

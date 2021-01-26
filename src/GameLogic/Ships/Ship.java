@@ -25,17 +25,15 @@ public class Ship implements Iterable<ShipPart> {
         ArrayList<ShipPart> shipParts = new ArrayList<>(size);
         int dx = horizontal ? 1 : 0;
         int dy = horizontal ? 0 : 1;
-        ShipPart prev;
         ShipPart next;
 
         for (int i = 0; i < size; i++)
             shipParts.add(new ShipPart());
 
         for (int i = 0; i < size; i++) {
-            prev = i == 0 ? null : shipParts.get(i - 1);
             next = i == (size - 1) ? null : shipParts.get((i + 1));
             ShipPart part = shipParts.get(i);
-            part.createShipPart(this,beginning.x + i * dx, beginning.y + i * dy, next, prev);
+            part.createShipPart(this,beginning.x + i * dx, beginning.y + i * dy, next);
         }
 
         this.beginning = shipParts.get(0);

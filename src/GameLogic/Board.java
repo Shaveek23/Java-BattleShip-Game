@@ -283,13 +283,13 @@ public class Board {
             for (int j = 0; j < width; j++) {
                 if (!this.fields[i][j].isHit()) {
                     if (this.fields[i][j].isShip())
-                        fieldsModel.fields[i][j] = Field.PREVIEW;
+                        fieldsModel.set(j, i, Field.PREVIEW);
                     else
-                        fieldsModel.fields[i][j] = Field.UNKNOWN;
+                        fieldsModel.set(j, i, Field.UNKNOWN);
                 } else if (this.fields[i][j].isShip()) {
-                    fieldsModel.fields[i][j] = Field.DESTROYED;
+                    fieldsModel.set(j, i, Field.DESTROYED);
                 } else {
-                    fieldsModel.fields[i][j] = Field.MISS;
+                    fieldsModel.set(j, i, Field.MISS);
                 }
             }
         }
@@ -302,11 +302,11 @@ public class Board {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if (!this.fields[i][j].isHit()) {
-                    fieldsModel.fields[i][j] = Field.UNKNOWN;
+                    fieldsModel.set(j, i, Field.UNKNOWN);
                 } else if (this.fields[i][j].isShip()) {
-                    fieldsModel.fields[i][j] = Field.DESTROYED;
+                    fieldsModel.set(j, i, Field.DESTROYED);
                 } else {
-                    fieldsModel.fields[i][j] = Field.MISS;
+                    fieldsModel.set(j, i, Field.MISS);
                 }
             }
         }

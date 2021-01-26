@@ -1,7 +1,15 @@
 package Application.Models;
 
 public class Fields {
-    public Field[][] fields;
+    private Field[][] fields;
+
+    public Field get(int x, int y) {
+        return fields[y][x];
+    }
+
+    public void set(int x, int y, Field value) {
+        fields[y][x] = value;
+    }
 
     public Fields(int height, int width)
     {

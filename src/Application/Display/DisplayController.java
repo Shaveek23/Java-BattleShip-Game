@@ -89,10 +89,11 @@ public class DisplayController {
 
                 } else {
                     Cell c = (Cell) event.getSource();
-                    Cell cell = humanPlayerBoard.getCell(c.x, c.y);
+                    Point p = c.get();
+                    Cell cell = humanPlayerBoard.getCell(p.x, p.y);
                     if (cell.getState() != Field.UNKNOWN)
                         return;
-                    target = new Point(cell.x, cell.y);
+                    target = cell.get();
                     game.setCurrentPlayer(game.getHumanPlayer());
                     currentDisplayBoard = humanPlayerBoard;
                     currentInfoLabel = humanInfoLabel;
@@ -149,8 +150,8 @@ public class DisplayController {
 
             if (game.isPlayerPlacingShips()) {
                 int nextShipSize = game.getGameMode().nextShipSize();
-                if (game.getComputerPlayer().isPossibleToPlaceShip(nextShipSize, (event.getButton() == MouseButton.PRIMARY), cell.x, cell.y)) {
-                    Ship newShip = new Ship(nextShipSize, (event.getButton() == MouseButton.PRIMARY), new Point(cell.x, cell.y));
+                if (game.getComputerPlayer().isPossibleToPlaceShip(nextShipSize, (event.getButton() == MouseButton.PRIMARY), cell.get().x, cell.get().y)) {
+                    Ship newShip = new Ship(nextShipSize, (event.getButton() == MouseButton.PRIMARY), cell.get());
                     game.getComputerPlayer().placeShip(newShip, game.getGameMode().getCurrentShipNo());
                     int nextNextSize = game.getGameMode().nextShipSize();
                     computerInfoLabel.setText("Place your ships on this board first! Horizontal - LMB, Vertical - RMB\nNext size: " + nextNextSize);

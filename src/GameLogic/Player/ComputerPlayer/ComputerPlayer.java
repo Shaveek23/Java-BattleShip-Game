@@ -13,6 +13,7 @@ import java.util.Random;
 public class ComputerPlayer extends Player {
 
     private LastShotTarget lastAccurate = null;
+
     public ComputerPlayer(Mode mode) {
         super(new Board(mode.getWidth(), mode.getHeight()), mode, new Ship[0]);
         int shipsCount = 0;
@@ -21,8 +22,6 @@ public class ComputerPlayer extends Player {
         }
         ships = new Ship[shipsCount];
     }
-
-
 
     @Override
     public void placeShip(Ship ship, int counter) {
@@ -68,7 +67,7 @@ public class ComputerPlayer extends Player {
         this.board.zipFields();
     }
 
-    public class LastShotTarget {
+    private class LastShotTarget {
 
         private Point currentBeginning; // the most right (horizontal) or the most up (vertical)
         private Point currentEnd; // the most left (horizontal) or the most up (vertical)
