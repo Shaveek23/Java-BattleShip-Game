@@ -1,7 +1,6 @@
 package sample.Display;
 
 import Game.Game;
-import Game.*;
 import Game.Ships.Ship;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -32,12 +31,13 @@ public class DisplayController {
 
     private static Label shipsLabel;
 
+    private static Game game;
 
-    public DisplayController() {
+    public DisplayController(Game game) {
+        this.game = game;
         initializeComputerBoard();
         initializePlayerBoard();
         initializeLabels();
-        
     }
 
     public static Parent createContent() {
@@ -61,13 +61,13 @@ public class DisplayController {
         computerLabel = new Label("Your Board:");
         computerLabel.setFont(new javafx.scene.text.Font("Verdana", 20));
 
-        int size = Game.getGameMode().nextShipSize();
-        Game.getGameMode().bringBackSize();
+        int size = game.getGameMode().nextShipSize();
+        game.getGameMode().bringBackSize();
         computerInfoLabel = new Label("Place your ships on this board first! Horizontal - LMB, Vertical - RMB\nNext size: " + size);
         computerInfoLabel.setTextFill(Color.RED);
 
         // initialize ships label
-        shipsLabel = new Label(Game.getGameMode().getShips());
+        shipsLabel = new Label(game.getGameMode().getShips());
         shipsLabel.setFont((new Font("Verdana", 18)));
         shipsLabel.setTextFill(Color.BLUE);
     }
@@ -76,14 +76,14 @@ public class DisplayController {
         EventHandler<MouseEvent> computerBoardHandler = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (Game.isPlayerPlacingShips || Game.isEnded)
+                if (game.isPlayerPlacingShips() || game.isEnded())
                     return;
 
                 Point target;
 
-                if (Game.isComputersTurn) {
-                    target = Game.computerPlayer.getNextTarget();
-                    Game.currentPlayer = Game.computerPlayer;
+                if (game.isComputersTurn()) {
+                    target = game.getComputerPlayer().getNextTarget();
+                    game.setCurrentPlayer(game.getComputerPlayer());
                     currentDisplayBoard = computerPlayerBoard;
                     currentInfoLabel = computerInfoLabel;
 
@@ -93,35 +93,35 @@ public class DisplayController {
                     if (cell.getState() != Field.UNKNOWN)
                         return;
                     target = new Point(cell.x, cell.y);
-                    Game.currentPlayer = Game.humanPlayer;
+                    game.setCurrentPlayer(game.getHumanPlayer());
                     currentDisplayBoard = humanPlayerBoard;
                     currentInfoLabel = humanInfoLabel;
                 }
 
 
-                boolean isHit = Game.currentPlayer.shoot(target);
-                currentDisplayBoard.refreshView(Game.currentPlayer.getFieldsModel());
+                boolean isHit = game.getCurrentPlayer().shoot(target);
+                currentDisplayBoard.refreshView(game.getCurrentPlayer().getFieldsModel());
 
 
-                if (Game.currentPlayer.isLoser())
+                if (game.getCurrentPlayer().isLoser())
                 {
                     currentInfoLabel.setText("WIN!!!");
-                    Game.isEnded = true;
+                    game.setIsEnded(true);
                     return;
                 }
 
                 String result;
                 if (!isHit) {
                     result = "MISS!!!";
-                    if (!Game.isComputersTurn) {
+                    if (!game.isComputersTurn()) {
                         computerInfoLabel.setText("");
                     }
-                    Game.isComputersTurn = !Game.isComputersTurn;
+                    game.setIsComputersTurn(!game.isComputersTurn());
                 } else {
                     result = "HIT!!!";
                 }
 
-                if (Game.isComputersTurn) {
+                if (game.isComputersTurn()) {
                     computerInfoLabel.setText(result + " " + computerInfoLabel.getText());
                     this.handle(event);
                 } else {
@@ -131,45 +131,44 @@ public class DisplayController {
         };
 
         humanPlayerBoard = new DisplayBoard(
-                Game.getGameMode().getWidth(),
-                Game.getGameMode().getHeight(),
-                Game.humanPlayer.getFieldsModel(),
+                game.getGameMode().getWidth(),
+                game.getGameMode().getHeight(),
+                game.getHumanPlayer().getFieldsModel(),
                 computerBoardHandler);
     }
 
     private static void initializeComputerBoard() {
         computerPlayerBoard = new DisplayBoard(
-                Game.getGameMode().getWidth(),
-                Game.getGameMode().getHeight(),
-                Game.computerPlayer.getFieldsModel(),
+                game.getGameMode().getWidth(),
+                game.getGameMode().getHeight(),
+                game.getComputerPlayer().getFieldsModel(),
                 event ->
         {
 
             Cell cell = (Cell) event.getSource();
 
-            if (Game.isPlayerPlacingShips) {
-                int nextShipSize = Game.getGameMode().nextShipSize();
-                if (Game.computerPlayer.isPossibleToPlaceShip(nextShipSize, (event.getButton() == MouseButton.PRIMARY), cell.x, cell.y)) {
+            if (game.isPlayerPlacingShips()) {
+                int nextShipSize = game.getGameMode().nextShipSize();
+                if (game.getComputerPlayer().isPossibleToPlaceShip(nextShipSize, (event.getButton() == MouseButton.PRIMARY), cell.x, cell.y)) {
                     Ship newShip = new Ship(nextShipSize, (event.getButton() == MouseButton.PRIMARY), new Point(cell.x, cell.y));
-                    Game.computerPlayer.placeShip(newShip, Game.getGameMode().getCurrentShipNo());
-                    int nextNextSize = Game.getGameMode().nextShipSize();
+                    game.getComputerPlayer().placeShip(newShip, game.getGameMode().getCurrentShipNo());
+                    int nextNextSize = game.getGameMode().nextShipSize();
                     computerInfoLabel.setText("Place your ships on this board first! Horizontal - LMB, Vertical - RMB\nNext size: " + nextNextSize);
 
                     if (nextNextSize == 0) {
-                        Game.isPlayerPlacingShips = false;
-                        Game.computerPlayer.zipFields();
-                        Game.isPreview = false;
+                        game.setIsPlayerPlacingShips(false);
+                        game.getComputerPlayer().zipFields();
                         computerInfoLabel.setText("");
                         humanInfoLabel.setText("It's your turn! Shoot");
                         humanInfoLabel.setTextFill(Color.RED);
                     }
-                    Game.getGameMode().bringBackSize();
+                    game.getGameMode().bringBackSize();
 
                 } else {
-                    Game.getGameMode().bringBackSize();
+                    game.getGameMode().bringBackSize();
                     computerInfoLabel.setText("Wrong ship position!\n Try again!");
                 }
-                computerPlayerBoard.refreshView(Game.computerPlayer.getFieldsModel());
+                computerPlayerBoard.refreshView(game.getComputerPlayer().getFieldsModel());
             }
         });
     }
