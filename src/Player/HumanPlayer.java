@@ -11,11 +11,11 @@ import java.util.Random;
 
 public class HumanPlayer extends Player{
 
-    public HumanPlayer() {
-        super(new Board(Mode.getWidth(), Mode.getHeight()), new Ship[0]);
+    public HumanPlayer(Mode mode) {
+        super(new Board(mode.getWidth(), mode.getHeight()), mode, new Ship[0]);
         int shipsCount = 0;
         for (
-                ShipsParameters params : Mode.getShipsParameters()) {
+                ShipsParameters params : mode.getShipsParameters()) {
             shipsCount += params.getCount();
         }
         ships = new Ship[shipsCount];
@@ -45,7 +45,7 @@ public class HumanPlayer extends Player{
 
     private boolean randomizeShips() {
         int counter = 0;
-        for (ShipsParameters type: Mode.getShipsParameters()) {
+        for (ShipsParameters type: mode.getShipsParameters()) {
             for (int i = 0; i < type.getCount(); i++) {
                 Ship ship = randomizeShip(type.getSize());
                 if (ship == null) {

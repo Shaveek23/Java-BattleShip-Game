@@ -44,8 +44,8 @@ public class Main extends Application {
     }
 
     private static void initializeGame() {
-        new Mode(boardWidth, boardHeight, ships);
-        new Game();
+        Mode mode = new Mode(boardWidth, boardHeight, ships);
+        new Game(mode);
         new DisplayController();
     }
 

@@ -1,6 +1,7 @@
 package Player;
 
 import Game.Board;
+import Game.Mode;
 import Game.Ships.Ship;
 import sample.Models.Fields;
 
@@ -10,8 +11,10 @@ public abstract class Player {
 
     protected Board board;
     protected Ship[] ships;
+    protected Mode mode;
 
-    protected Player(Board board, Ship[] ships) {
+    protected Player(Board board, Mode mode, Ship[] ships) {
+        this.mode = mode;
         this.board = board;
         this.ships = ships;
     }

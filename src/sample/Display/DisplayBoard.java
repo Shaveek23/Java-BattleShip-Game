@@ -14,12 +14,16 @@ import sample.Models.Fields;
 public class DisplayBoard extends Parent {
     private VBox rows = new VBox();
     private Fields model;
+    private int width;
+    private int height;
 
-    public DisplayBoard(Fields model, EventHandler<? super MouseEvent> handler) {
+    public DisplayBoard(int width, int height, Fields model, EventHandler<? super MouseEvent> handler) {
         this.model = model;
-        for (int y = 0; y < Mode.getHeight(); y++) {
+        this.width = width;
+        this.height = height;
+        for (int y = 0; y < height; y++) {
             HBox row = new HBox();
-            for (int x = 0; x < Mode.getWidth(); x++) {
+            for (int x = 0; x < width; x++) {
                 Cell c = new Cell(x, y);
                 displayCell(c, model.fields[y][x]);
                 c.setOnMouseClicked(handler);
@@ -38,8 +42,8 @@ public class DisplayBoard extends Parent {
         if (model == null)
             return;
 
-        for (int y = 0; y < Mode.getHeight(); y++) {
-            for (int x = 0; x < Mode.getWidth(); x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 Cell c = getCell(x, y);
                 displayCell(c, model.fields[y][x]);
             }

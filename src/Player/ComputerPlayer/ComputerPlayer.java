@@ -13,10 +13,10 @@ import java.util.Random;
 public class ComputerPlayer extends Player {
 
     private LastShotTarget lastAccurate = null;
-    public ComputerPlayer() {
-        super(new Board(Mode.getWidth(), Mode.getHeight()), new Ship[0]);
+    public ComputerPlayer(Mode mode) {
+        super(new Board(mode.getWidth(), mode.getHeight()), mode, new Ship[0]);
         int shipsCount = 0;
-        for (ShipsParameters params: Mode.getShipsParameters()) {
+        for (ShipsParameters params: mode.getShipsParameters()) {
             shipsCount += params.getCount();
         }
         ships = new Ship[shipsCount];

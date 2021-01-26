@@ -6,9 +6,9 @@ import sample.Models.Field;
 public class Fields {
     public Field[][] fields;
 
-    public Fields()
+    public Fields(int height, int width)
     {
-        fields = new Field[Mode.getHeight()][Mode.getWidth()];
+        fields = new Field[height][width];
     }
 
 

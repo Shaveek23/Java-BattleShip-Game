@@ -188,7 +188,7 @@ public class Board {
     }
 
     public boolean isIndexOk(int height, int width) {
-        return (height >= 0 && height < Mode.getHeight()) && (width >= 0 && width < Mode.getWidth());
+        return (height >= 0 && height < this.height) && (width >= 0 && width < this.width);
     }
     
     public void placeShip(Ship ship) {
@@ -277,10 +277,10 @@ public class Board {
 
     public Fields getPreviewFieldsModel()
     {
-        Fields fieldsModel = new Fields();
+        Fields fieldsModel = new Fields(height, width);
 
-        for (int i = 0; i < Mode.getHeight(); i++) {
-            for (int j = 0; j < Mode.getWidth(); j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 if (!this.fields[i][j].isHit()) {
                     if (this.fields[i][j].isShip())
                         fieldsModel.fields[i][j] = Field.PREVIEW;
@@ -297,10 +297,10 @@ public class Board {
     }
 
     public Fields getFieldsModel() {
-        Fields fieldsModel = new Fields();
+        Fields fieldsModel = new Fields(height, width);
 
-        for (int i = 0; i < Mode.getHeight(); i++) {
-            for (int j = 0; j < Mode.getWidth(); j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 if (!this.fields[i][j].isHit()) {
                     fieldsModel.fields[i][j] = Field.UNKNOWN;
                 } else if (this.fields[i][j].isShip()) {

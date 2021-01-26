@@ -19,10 +19,16 @@ public class Game {
     public static ComputerPlayer computerPlayer;
     public static Player currentPlayer;
 
+    private static Mode mode;
 
-    public Game() {
-        humanPlayer = new HumanPlayer();
-        computerPlayer = new ComputerPlayer();
+    public Game(Mode mode) {
+        this.mode = mode;
+        humanPlayer = new HumanPlayer(mode);
+        computerPlayer = new ComputerPlayer(mode);
+    }
+
+    public static Mode getGameMode() {
+        return mode;
     }
 
 
