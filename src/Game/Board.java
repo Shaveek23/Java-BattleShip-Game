@@ -275,7 +275,7 @@ public class Board {
         return !fields[point.y][point.x].isHit();
     }
 
-    public Fields getFieldsModel()
+    public Fields getPreviewFieldsModel()
     {
         Fields fieldsModel = new Fields();
 
@@ -286,6 +286,23 @@ public class Board {
                         fieldsModel.fields[i][j] = Field.PREVIEW;
                     else
                         fieldsModel.fields[i][j] = Field.UNKNOWN;
+                } else if (this.fields[i][j].isShip()) {
+                    fieldsModel.fields[i][j] = Field.DESTROYED;
+                } else {
+                    fieldsModel.fields[i][j] = Field.MISS;
+                }
+            }
+        }
+        return fieldsModel;
+    }
+
+    public Fields getFieldsModel() {
+        Fields fieldsModel = new Fields();
+
+        for (int i = 0; i < Mode.getHeight(); i++) {
+            for (int j = 0; j < Mode.getWidth(); j++) {
+                if (!this.fields[i][j].isHit()) {
+                    fieldsModel.fields[i][j] = Field.UNKNOWN;
                 } else if (this.fields[i][j].isShip()) {
                     fieldsModel.fields[i][j] = Field.DESTROYED;
                 } else {

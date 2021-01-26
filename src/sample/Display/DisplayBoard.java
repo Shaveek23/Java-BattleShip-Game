@@ -28,6 +28,9 @@ public class DisplayBoard extends Parent {
                 } else if (model.fields[y][x] == Field.DESTROYED) {
                     c.setFill(Color.RED);
                     c.setState(Field.DESTROYED);
+                } else if (model.fields[y][x] == Field.PREVIEW) {
+                    c.setFill(Color.GREEN);
+                    c.setState(Field.PREVIEW);
                 } else {
                     c.setFill(Color.LIGHTGRAY);
                     c.setState(Field.UNKNOWN);
@@ -57,7 +60,7 @@ public class DisplayBoard extends Parent {
                 } else if (model.fields[y][x] == Field.DESTROYED) {
                     c.setFill(Color.RED);
                     c.setState(Field.DESTROYED);
-                } else if (Game.isPreview && model.fields[y][x] == Field.PREVIEW) {
+                } else if (model.fields[y][x] == Field.PREVIEW) {
                     c.setFill(Color.GREEN);
                     c.setState(Field.PREVIEW);
                 } else {

@@ -159,7 +159,7 @@ public class DisplayController {
                     Mode.bringBackSize();
                     computerInfoLabel.setText("Wrong ship position!\n Try again!");
                 }
-                computerPlayerBoard.refreshView(Game.computerPlayer.board.getFieldsModel());
+                computerPlayerBoard.refreshView(Game.computerPlayer.getFieldsModel());
             }
         });
     }

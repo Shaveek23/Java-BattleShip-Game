@@ -4,6 +4,7 @@ import Game.*;
 import Game.Ships.Ship;
 import Game.Ships.ShipsParameters;
 import Player.Player;
+import sample.Models.Fields;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -51,8 +52,12 @@ public class ComputerPlayer extends Player {
             }
             return true;
         }
-
         return false;
+    }
+
+    @Override
+    public Fields getFieldsModel() {
+        return this.board.getPreviewFieldsModel();
     }
 
 

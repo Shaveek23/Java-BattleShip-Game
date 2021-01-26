@@ -41,7 +41,6 @@ public abstract class Player {
        return false;
     }
 
-    public Fields getFieldsModel() {
-        return this.board.getFieldsModel();
-    }
+    public abstract Fields getFieldsModel();
+
 }

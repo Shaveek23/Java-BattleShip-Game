@@ -4,6 +4,7 @@ import Game.Board;
 import Game.Mode;
 import Game.Ships.Ship;
 import Game.Ships.ShipsParameters;
+import sample.Models.Fields;
 
 import java.awt.*;
 import java.util.Random;
@@ -30,6 +31,11 @@ public class HumanPlayer extends Player{
     @Override
     public boolean shoot(Point point) {
         return board.shoot(point);
+    }
+
+    @Override
+    public Fields getFieldsModel() {
+        return this.board.getFieldsModel();
     }
 
     public void placeShips() {
