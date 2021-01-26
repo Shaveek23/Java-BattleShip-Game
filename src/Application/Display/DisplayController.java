@@ -76,6 +76,8 @@ public class DisplayController {
         EventHandler<MouseEvent> computerBoardHandler = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+
+                //if player hasn't placed their ships yet prevent from shooting
                 if (game.isPlayerPlacingShips() || game.isEnded())
                     return;
 
@@ -88,11 +90,16 @@ public class DisplayController {
                     currentInfoLabel = computerInfoLabel;
 
                 } else {
+                    //get clicked cell
                     Cell c = (Cell) event.getSource();
                     Point p = c.get();
                     Cell cell = humanPlayerBoard.getCell(p.x, p.y);
+
+                    //clicking already hit fields does not count as a player's move
                     if (cell.getState() != Field.UNKNOWN)
                         return;
+
+                    //shooting
                     target = cell.get();
                     game.setCurrentPlayer(game.getHumanPlayer());
                     currentDisplayBoard = humanPlayerBoard;
@@ -111,6 +118,7 @@ public class DisplayController {
                     return;
                 }
 
+                //set labels text
                 String result;
                 if (!isHit) {
                     result = "MISS!!!";
@@ -122,6 +130,7 @@ public class DisplayController {
                     result = "HIT!!!";
                 }
 
+                // in case of computer's accurate shot continue it's turn
                 if (game.isComputersTurn()) {
                     computerInfoLabel.setText(result + " " + computerInfoLabel.getText());
                     this.handle(event);
@@ -150,12 +159,18 @@ public class DisplayController {
 
             if (game.isPlayerPlacingShips()) {
                 int nextShipSize = game.getGameMode().nextShipSize();
+
+                //check if selected location is ok
                 if (game.getComputerPlayer().isPossibleToPlaceShip(nextShipSize, (event.getButton() == MouseButton.PRIMARY), cell.get().x, cell.get().y)) {
+                    //place ship
                     Ship newShip = new Ship(nextShipSize, (event.getButton() == MouseButton.PRIMARY), cell.get());
                     game.getComputerPlayer().placeShip(newShip, game.getGameMode().getCurrentShipNo());
+
+                    //peek next ship's size
                     int nextNextSize = game.getGameMode().nextShipSize();
                     computerInfoLabel.setText("Place your ships on this board first! Horizontal - LMB, Vertical - RMB\nNext size: " + nextNextSize);
 
+                    //if next size == 0 -> stop placing ships and start shooting
                     if (nextNextSize == 0) {
                         game.setIsPlayerPlacingShips(false);
                         game.getComputerPlayer().zipFields();
@@ -169,6 +184,7 @@ public class DisplayController {
                     game.getGameMode().bringBackSize();
                     computerInfoLabel.setText("Wrong ship position!\n Try again!");
                 }
+
                 computerPlayerBoard.refreshView(game.getComputerPlayer().getFieldsModel());
             }
         });

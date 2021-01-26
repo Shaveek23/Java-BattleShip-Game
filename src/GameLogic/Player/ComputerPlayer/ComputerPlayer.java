@@ -31,10 +31,10 @@ public class ComputerPlayer extends Player {
 
     public Point getNextTarget() {
         Point target;
-        if (lastAccurate == null)
+        if (lastAccurate == null) // if any ship has been hit recently, randomize new target
             target = board.randomizeTarget();
         else
-            target = lastAccurate.next();
+            target = lastAccurate.next(); //if there is a ship hit recently, try to hit the rest of its parts
         return target;
     }
 
@@ -42,12 +42,13 @@ public class ComputerPlayer extends Player {
     public boolean shoot(Point target) {
 
         if (board.shoot(target)) {
-            if (lastAccurate == null)
+            //update last hit ship
+            if (lastAccurate == null) //new ship was discovered
                 lastAccurate = new LastShotTarget(target);
             else {
-                boolean isDestroyed = lastAccurate.addNextPart(target);
+                boolean isDestroyed = lastAccurate.addNextPart(target); //another part was hit
                 if (isDestroyed)
-                    lastAccurate = null;
+                    lastAccurate = null; //there are any ship parts left for this ship
             }
             return true;
         }
@@ -67,6 +68,7 @@ public class ComputerPlayer extends Player {
         this.board.zipFields();
     }
 
+    //inner class representing last hit ship and providing methods for choosing next target when trying to hit another part
     private class LastShotTarget {
 
         private Point currentBeginning; // the most right (horizontal) or the most up (vertical)

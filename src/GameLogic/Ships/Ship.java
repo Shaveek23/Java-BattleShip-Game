@@ -6,13 +6,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+//this class aggregates adequate ship's parts (represented as a linked list) 
 public class Ship implements Iterable<ShipPart> {
     private int size;
     private boolean horizontal;
     private ShipPart beginning;
-    private ShipPart end;
 
-    //assuming that beginning and end points enable correct ship creation
     public Ship(int size, boolean horizontal, Point beginning)
     {
         this.size = size;
@@ -37,7 +36,6 @@ public class Ship implements Iterable<ShipPart> {
         }
 
         this.beginning = shipParts.get(0);
-        this.end = shipParts.get(shipParts.size() - 1);
     }
 
     public Point getBeginningCoordinates() {

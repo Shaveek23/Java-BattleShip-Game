@@ -4,6 +4,7 @@ import GameLogic.Ships.Ship;
 
 import java.awt.*;
 
+// represents a node in ship's linked list
 public class ShipPart implements IField {
 
     private int partX;

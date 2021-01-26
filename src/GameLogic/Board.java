@@ -208,9 +208,12 @@ public class Board {
 
     public Point randomizeTarget() {
         Random random = new Random();
+
+        //randomize new target withing fields that haven't been hit yet (possible targets)
         int hitIndex = random.nextInt(notHitYet.size());
         IField target = (IField)notHitYet.values().toArray()[hitIndex];
 
+        //if random target is surrounded by water (left, right, down, up) get new target and then delete the old one from the collection of possible targets
         if (checkIfDeadField(target)) {
             notHitYet.remove(new Pair<Integer, Integer>(target.getX(), target.getY()));
             return randomizeTarget();
@@ -256,7 +259,7 @@ public class Board {
         notHitYet.remove(new Pair<Integer, Integer>(target.x, target.y));
         if (fields[target.y][target.x].isShip()) {
             Ship ship = ((ShipPart)fields[target.y][target.x]).getShip();
-            if (ship.isDestroyed())
+            if (ship.isDestroyed()) // if this shot destroyed a ship, mark water around that ship
                 markWaterAroundShip(ship);
             return true;
         }
@@ -275,6 +278,7 @@ public class Board {
         return !fields[point.y][point.x].isHit();
     }
 
+    //create a model to be displayed in application with marking ships positions as PREVIEW
     public Fields getPreviewFieldsModel()
     {
         Fields fieldsModel = new Fields(height, width);
@@ -296,6 +300,7 @@ public class Board {
         return fieldsModel;
     }
 
+    //create a model to be displayed in application with hidden ships positions
     public Fields getFieldsModel() {
         Fields fieldsModel = new Fields(height, width);
 

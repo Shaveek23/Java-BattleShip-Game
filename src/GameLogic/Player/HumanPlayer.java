@@ -39,10 +39,12 @@ public class HumanPlayer extends Player{
     }
 
     public void placeShips() {
-        while (!randomizeShips());
-        board.zipFields();
+        while (!randomizeShips()); //try placing ships until final ships configuration is correct
+        board.zipFields(); //mark all fields as not hit yet
     }
 
+    //place ships in random position
+    //in case of bad configuration (not all ships were placed and it's not possible to add any new ship) returns false
     private boolean randomizeShips() {
         int counter = 0;
         for (ShipsParameters type: mode.getShipsParameters()) {

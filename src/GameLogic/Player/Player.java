@@ -44,6 +44,7 @@ public abstract class Player {
        return false;
     }
 
+    // returns model for application to display
     public abstract Fields getFieldsModel();
 
 }
