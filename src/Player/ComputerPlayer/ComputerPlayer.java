@@ -60,6 +60,13 @@ public class ComputerPlayer extends Player {
         return this.board.getPreviewFieldsModel();
     }
 
+    public boolean isPossibleToPlaceShip(int nextShipSize, boolean isHorizontal, int x, int y) {
+        return this.board.isPossibleToPlaceShip(nextShipSize, isHorizontal, x, y);
+    }
+
+    public void zipFields() {
+        this.board.zipFields();
+    }
 
     public class LastShotTarget {
 

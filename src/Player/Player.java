@@ -8,8 +8,8 @@ import java.awt.*;
 
 public abstract class Player {
 
-    public Board board; // change to protected
-    public Ship[] ships; //change to protected
+    protected Board board;
+    protected Ship[] ships;
 
     protected Player(Board board, Ship[] ships) {
         this.board = board;

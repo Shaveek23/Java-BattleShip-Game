@@ -1,6 +1,5 @@
 package sample.Display;
 
-import Game.Game;
 import Game.Mode;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -22,19 +21,7 @@ public class DisplayBoard extends Parent {
             HBox row = new HBox();
             for (int x = 0; x < Mode.getWidth(); x++) {
                 Cell c = new Cell(x, y);
-                if (model.fields[y][x] == Field.MISS ) {
-                    c.setFill(Color.BLUE);
-                    c.setState(Field.MISS);
-                } else if (model.fields[y][x] == Field.DESTROYED) {
-                    c.setFill(Color.RED);
-                    c.setState(Field.DESTROYED);
-                } else if (model.fields[y][x] == Field.PREVIEW) {
-                    c.setFill(Color.GREEN);
-                    c.setState(Field.PREVIEW);
-                } else {
-                    c.setFill(Color.LIGHTGRAY);
-                    c.setState(Field.UNKNOWN);
-                }
+                displayCell(c, model.fields[y][x]);
                 c.setOnMouseClicked(handler);
                 row.getChildren().add(c);
             }
@@ -54,22 +41,26 @@ public class DisplayBoard extends Parent {
         for (int y = 0; y < Mode.getHeight(); y++) {
             for (int x = 0; x < Mode.getWidth(); x++) {
                 Cell c = getCell(x, y);
-                if (model.fields[y][x] == Field.MISS) {
-                    c.setState(Field.MISS);
-                    c.setFill(Color.BLUE);
-                } else if (model.fields[y][x] == Field.DESTROYED) {
-                    c.setFill(Color.RED);
-                    c.setState(Field.DESTROYED);
-                } else if (model.fields[y][x] == Field.PREVIEW) {
-                    c.setFill(Color.GREEN);
-                    c.setState(Field.PREVIEW);
-                } else {
-                    c.setFill(Color.LIGHTGRAY);
-                    c.setState(Field.UNKNOWN);
-                }
+                displayCell(c, model.fields[y][x]);
             }
         }
         this.model = model;
         return;
+    }
+
+    private void displayCell(Cell c, Field cellState) {
+        if (cellState == Field.MISS) {
+            c.setState(Field.MISS);
+            c.setFill(Color.BLUE);
+        } else if (cellState == Field.DESTROYED) {
+            c.setFill(Color.RED);
+            c.setState(Field.DESTROYED);
+        } else if (cellState == Field.PREVIEW) {
+            c.setFill(Color.GREEN);
+            c.setState(Field.PREVIEW);
+        } else {
+            c.setFill(Color.LIGHTGRAY);
+            c.setState(Field.UNKNOWN);
+        }
     }
 }

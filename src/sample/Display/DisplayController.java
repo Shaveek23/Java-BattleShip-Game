@@ -139,7 +139,7 @@ public class DisplayController {
 
             if (Game.isPlayerPlacingShips) {
                 int nextShipSize = Mode.nextShipSize();
-                if (Game.computerPlayer.board.isPossibleToPlaceShip(nextShipSize, (event.getButton() == MouseButton.PRIMARY), cell.x, cell.y)) {
+                if (Game.computerPlayer.isPossibleToPlaceShip(nextShipSize, (event.getButton() == MouseButton.PRIMARY), cell.x, cell.y)) {
                     Ship newShip = new Ship(nextShipSize, (event.getButton() == MouseButton.PRIMARY), new Point(cell.x, cell.y));
                     Game.computerPlayer.placeShip(newShip, Mode.getCurrentShipNo());
                     int nextNextSize = Mode.nextShipSize();
@@ -147,7 +147,7 @@ public class DisplayController {
 
                     if (nextNextSize == 0) {
                         Game.isPlayerPlacingShips = false;
-                        Game.computerPlayer.board.zipFields();
+                        Game.computerPlayer.zipFields();
                         Game.isPreview = false;
                         computerInfoLabel.setText("");
                         humanInfoLabel.setText("It's your turn! Shoot");
